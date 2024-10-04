@@ -1,3 +1,4 @@
+import env from "./env";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import UserForm from "./UserForm";
@@ -15,7 +16,7 @@ const Users = () => {
   }, []);
 
   const getUsers = () => {
-    Axios.get("http://localhost:3001/api/users")
+    Axios.get(process.env.REACT_APP_ENDPOINT + "/api/users")
       .then((response) => {
         // console.log(response);
         setUsers(response.data?.response || []);
@@ -31,7 +32,7 @@ const Users = () => {
       id: data.id,
       name: data.name,
     };
-    Axios.post("http://localhost:3001/api/createUser", payload)
+    Axios.post(process.env.REACT_APP_ENDPOINT + "/api/createUser", payload)
       .then(() => {
         getUsers();
         setSubmitted(false);
@@ -50,7 +51,7 @@ const Users = () => {
       name: data.name,
     };
 
-    Axios.put("http://localhost:3001/api/updateUser", payload)
+    Axios.put(process.env.REACT_APP_ENDPOINT + "/api/updateUser", payload)
       .then(() => {
         getUsers();
         setSubmitted(false);
@@ -62,7 +63,9 @@ const Users = () => {
   };
 
   const deleteUser = (data) => {
-    Axios.delete("http://localhost:3001/api/deleteUser", { data: data })
+    Axios.delete(process.env.REACT_APP_ENDPOINT + "/api/deleteUser", {
+      data: data,
+    })
       .then(() => {
         getUsers();
       })
